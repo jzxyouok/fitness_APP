@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--  DispatcherServlet需要咨询一个或者多个处理器映射器来决定要将请求发送给哪个控制器，我们这里常用的处理器映射器是DefaultAnnotationHandlerMapping：即将请求映射给使用@RequestMapping注解的控制器和控制器方法。
+  最新的Spring的发展趋势是依靠注解来减少XML配置，因此我们在usersDemo.xml中添加下面一行配置，就可以得到Spring MVC提供的注解驱动测试-->
+    <mvc:annotation-driven/>
+
+
+    <!--我们将会给控制器类添加@Controller来表明这是一个控制器类，这个类是@Component的子类，也就是说可以通过”context:component-scan标签”来查找控制器类并将其自动注册为Bean。需要再usersDemo.xml中添加下面一行配置：-->
+    <context:component-scan base-package="com.jlu.zhu.controller"/>
+
+
+    <!--dispather-servlet.xml文件中配置Velocity视图解析器。配置代码如下：-->
+    <!--规定模板文件的类型和位置-->
+    <bean id="velocityConfigurer"
+          class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath" value="/common/templates/screen/" />
+        <property name="velocityProperties">
+            <props>
+                <prop key="input.encoding">utf-8</prop>
+                <prop key="output.encoding">utf-8</prop>
+            </props>
+        </property>
+    </bean>
+    <!--配置附加工具，以及将后缀为vm的文件交给下面的Resolver处理-->
+    <bean id="velocityViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
+        <!-- 或者org.springframework.web.servlet.view.velocity.VelocityViewResolver-->
+        <property name="cache" value="true"/>
+        <!--前面设置了resourceLoaderPath，所以这里不能再设置前缀了-->
+        <property name="prefix" value=""/>
+        <!--框架模板，screen渲染的时候都会加入该模板一起渲染-->
+        <property name="layoutUrl" value="layout.vm"/>
+        <property name="suffix" value=".vm" />
+        <property name="contentType" value="text/html;charset=utf-8" />
+    </bean>
+</beans>

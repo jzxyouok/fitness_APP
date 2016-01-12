@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        #div1 {
+            background-color: #ac2925;
+            height: 30px;
+            width: 200px;
+        }
+
+        #div2 {
+            background-color: #999999;
+            height: 20px;
+            width: 150px;
+            margin: 10px;
+            display: none;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function () {
+            var oDiv1 = document.getElementById("div1");
+            var oDiv2 = document.getElementById('div2');
+            var timer = null;
+
+            oDiv1.onmouseover = oDiv2.onmouseover =function () {
+                oDiv2.style.display = 'block';
+                clearTimeout(timer);
+            }
+            oDiv1.onmouseout = oDiv2.onmouseout = function () {
+                timer = setTimeout(function () {
+                    oDiv2.style.display = 'none';
+                }, 500);
+            }
+        }
+    </script>
+</head>
+<body>
+<div id="div1"></div>
+<div id="div2"></div>
+<!--<ul style="background-color: #0000cc">-->
+    <!--<li style="background-color: darkgray">-->
+        <!--<h2>妙味课堂</h2>-->
+        <!--<ul style="border: dashed">-->
+            <!--<li>-->
+                <!--<h4>电话</h4>-->
+                <!--<ul style="border: dotted brown">-->
+                    <!--<li>1</li>-->
+                    <!--<li>2</li>-->
+                    <!--<li>3</li>-->
+                    <!--<li>4</li>-->
+                <!--</ul>-->
+            <!--</li>-->
+            <!--<li>住址</li>-->
+        <!--</ul>-->
+    <!--</li>-->
+    <!--<li style="background-color: fuchsia">妙味茶馆</li>-->
+    <!--<li style="background-color: teal">联系我们</li>-->
+</ul>
+
+</body>
+</html>

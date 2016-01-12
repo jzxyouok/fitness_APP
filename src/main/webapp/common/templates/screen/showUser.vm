@@ -1,0 +1,2 @@
+<p>show user Id: ${user.userid}</p>
+<p>show user Title: ${user.email}</p>
