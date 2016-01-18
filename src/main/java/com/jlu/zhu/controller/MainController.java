@@ -9,10 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -139,17 +143,82 @@ public class MainController {
         return "xxx";
     }
 
-    @RequestMapping(value = "/uuu", method = RequestMethod.GET)
-    public String showUser(@RequestParam("id") int id, ModelMap modelMap) {
+//    @RequestMapping(value = "/uuu", method = RequestMethod.GET)
+//    public String showUser(@RequestParam("id") int id, ModelMap modelMap) {
+//        //1.调用BLL层的服务接口
+//        UserEntity user = userService.getUserById(id);
+//        String string = JSON.toJSONString(user);
+//        System.out.println(string);
+//
+//        //2.设置模型数据
+//        modelMap.put("us", user);
+//        logger.error("error");
+//        //3.返回逻辑视图名称
+//        return "uuu";
+//    }
+
+    @RequestMapping("/show1")
+    public ModelAndView show1(@RequestParam("id") int id) throws Exception {
+        UserEntity user = userService.getUserById(id);
+        ModelAndView mav = new ModelAndView("/uuu");//通过ModelAndView构造方法可以指定返回的页面名称
+        mav.addObject("us", user);
+        return mav;
+    }
+
+    //以下是几种和页面传值的例子
+    @RequestMapping("/getMap")
+    public Map<String, UserEntity> getMap(@RequestParam("id") int id,HttpServletResponse response) throws IOException{
+        UserEntity user = userService.getUserById(id);
+        Map<String, UserEntity> map = new HashMap<String, UserEntity>();
+        map.put("key1", user);
+        //map.put("key2", "value-2");
+        response.getWriter().print("<h1>${key1.firstname} Hello SpringMVC</h1>");
+        //response.flushBuffer();
+        return map;
+    }
+
+
+    @RequestMapping(value = "/something", method = RequestMethod.GET)
+    @ResponseBody
+    public String helloWorld()  {
+        return "Hello World";
+    }
+
+    @RequestMapping("/welcome2")
+    public String welcomeHandler1() {
+        return "index";
+    }
+
+    //返回值是 void  则响应的视图页面对应为访问地址
+    @RequestMapping("/welcome3")
+    public void welcomeHandler() {}
+
+    @RequestMapping(value = "/uu", method = RequestMethod.GET)
+    public String sh2(@RequestParam("id") int id, ModelMap modelMap) {
         //1.调用BLL层的服务接口
         UserEntity user = userService.getUserById(id);
-        System.out.println(JSON.toJSONString(user));
+        String string = JSON.toJSONString(user);
+        System.out.println(string);
 
         //2.设置模型数据
-        modelMap.put("user", user);
+        modelMap.put("us", user);
         logger.error("error");
         //3.返回逻辑视图名称
         return "uuu";
+    }
+
+    @Controller
+    public class LoginController {
+        @RequestMapping(value="/validataUser")
+        @ResponseBody
+        public Map<String,Object> validataUser(@RequestParam("id") int id){
+            UserEntity user = userService.getUserById(id);
+            String string = JSON.toJSONString(user);
+           // logger.info(" validata user : {}","cdsd");
+            Map<String,Object> map = new HashMap<String,Object>();
+            map.put("code", true);
+            return map;
+        }
     }
 
 }
