@@ -207,18 +207,18 @@ public class MainController {
         return "uuu";
     }
 
-    @Controller
-    public class LoginController {
+//    @Controller
+//    public class LoginController {
         @RequestMapping(value="/validataUser")
         @ResponseBody
-        public Map<String,Object> validataUser(@RequestParam("id") int id){
+        public Map<String,Object> loginController(@RequestParam("id") int id){
             UserEntity user = userService.getUserById(id);
             String string = JSON.toJSONString(user);
-           // logger.info(" validata user : {}","cdsd");
+            //logger.info(" validata user : {}",string);
             Map<String,Object> map = new HashMap<String,Object>();
             map.put("code", true);
             return map;
         }
-    }
+//    }
 
 }

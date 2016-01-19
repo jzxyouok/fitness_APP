@@ -46,7 +46,7 @@ public class UserServiceImplTest extends AbstractComponentTest {
 
         UserEntity user = new UserEntity();
         user.setFirstname("ccc");
-        user.setId(777);
+        //user.setId(777);
         user.setLastname("zzz");
         user.setPassword("123");
 
